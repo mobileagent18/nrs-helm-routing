@@ -1,0 +1,25 @@
+#green:
+#  enabled: false
+#  image:
+#  version:
+
+#blue:
+#  enabled: true
+#  image: packages.aa.com/docker-dev/aa-et/travel/nrs/nrs-tony-poc
+#  version: latest
+
+productionSlot: blue
+
+#replicaCount: 1
+
+#regsecret: regsecret
+appName: nrs-6-4
+
+ingress:
+  hostname: b7a06d57-us-south.lb.appdomain.cloud
+  #contextroot: NonRevServices1
+  version: v6_4
+
+#index: hello world
+#index_green: NRS version 3.0 - green slot
+#index_blue: NRS version 2.2 - blue slot

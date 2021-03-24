@@ -1,0 +1,32 @@
+{{- $fullName := .Values.appName -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-ingress
+  annotations:
+    kubernetes.io/ingress.class: "private-iks-k8s-nginx"
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  labels:
+    app: {{ template "blue-green.name" . }}
+    chart: {{ template "blue-green.chart" . }}
+    release: {{ $fullName }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.hostname }}
+    http:
+      paths:
+        - path: /NonRevServices/{{ .Values.ingress.version }}(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ $fullName }}-service-prod
+              port:
+                number: 9080
+        - path: /NonRevServcies/{{ .Values.ingress.version }}beta(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ $fullName }}-service-beta
+              port:
+                number: 9080
